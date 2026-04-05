@@ -3,7 +3,6 @@ Objective: The objective is to transform raw multimodal time-series datasets (HA
 
 1. HAR (Human activity recognition) Preprocessing (PAMAP2 and WISDM)
 Channel Schema
-
 A shared 6-channel representation will be used:
 tri-axial accelerometer (x, y, z)
 tri-axial gyroscope (x, y, z)
@@ -18,15 +17,14 @@ WISDM (20 Hz) → retained
 Windowing Strategy
 
 Two outputs will be generated:
-
-Pretraining dataset
-10-second windows
-no overlap
-unlabeled
-Supervised dataset
-5-second windows
-50% overlap
-labeled using majority class per window
+- Pretraining dataset
+  10-second windows
+  no overlap
+  unlabeled
+- Supervised dataset
+  5-second windows
+  50% overlap
+  labeled using majority class per window
 
 A minimum label purity threshold (e.g. 70%) will be applied to reduce label noise.
 
@@ -38,6 +36,7 @@ Data Cleaning
 Remove malformed rows and duplicates
 Interpolate short gaps
 Ensure consistent timestamp ordering
+
 2. EEG Preprocessing (EEGMMIDB)
 Dataset Selection
 Runs: 4, 8, 12 (motor imagery)
@@ -54,11 +53,11 @@ Per-window normalisation
 Metadata
 
 Each sample will include:
+-subject ID
+-run ID
+-event type
+-timing information
 
-subject ID
-run ID
-event type
-timing information
 3. ECG Preprocessing (PTB-XL)
 Sampling Rate
 100 Hz selected for computational efficiency
@@ -76,10 +75,10 @@ patient ID
 record ID
 labels (SCP codes)
 sampling rate and lead names
+
 4. Output Format
 
 All processed outputs will:
-
 be stored as float32 arrays
 follow consistent shapes:
 HAR: [6, T]
@@ -88,15 +87,15 @@ ECG: [12, T]
 be saved as .npz files
 
 Each dataset will include:
-
-metadata table (CSV or Parquet)
-manifest file listing all generated outputs
+-metadata table (CSV or Parquet)
+-manifest file listing all generated outputs
 
 5. Resource Considerations
+   
 Chunked processing will be used to limit memory usage
 Float32 will reduce storage footprint
 
-Estimated constraints:
+6. Estimated constraints:
 moderate disk usage (GB-scale)
 RAM bounded by batch/window size
 runtime dependent on dataset size and resampling
